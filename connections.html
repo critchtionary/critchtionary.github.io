@@ -24,8 +24,23 @@
             color: #fff;
         }
         
-        .solved {
+        .solved[data-category="1"] {
             background-color: #27ae60;
+            color: #fff;
+        }
+
+        .solved[data-category="2"] {
+            background-color: #994cd8;
+            color: #fff;
+        }
+
+        .solved[data-category="3"] {
+            background-color: #d6b41f;
+            color: #fff;
+        }
+
+        .solved[data-category="4"] {
+            background-color: #34cec6;
             color: #fff;
         }
                 
@@ -37,21 +52,21 @@
 <body>
     <div class="grid">
         <div class="word" data-category="1" onclick="handleClick(this)">Word 1</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 2</div>
+        <div class="word" data-category="1" onclick="handleClick(this)">Word 2</div>
         <div class="word" data-category="1" onclick="handleClick(this)">Word 3</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 4</div>
+        <div class="word" data-category="1" onclick="handleClick(this)">Word 4</div>
         <div class="word" data-category="2" onclick="handleClick(this)">Word 5</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 6</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 7</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 8</div>
+        <div class="word" data-category="2" onclick="handleClick(this)">Word 6</div>
+        <div class="word" data-category="2" onclick="handleClick(this)">Word 7</div>
+        <div class="word" data-category="2" onclick="handleClick(this)">Word 8</div>
         <div class="word" data-category="3" onclick="handleClick(this)">Word 9</div>
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 10</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 11</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 12</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 13</div>
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 14</div>
+        <div class="word" data-category="3" onclick="handleClick(this)">Word 10</div>
+        <div class="word" data-category="3" onclick="handleClick(this)">Word 11</div>
+        <div class="word" data-category="3" onclick="handleClick(this)">Word 12</div>
+        <div class="word" data-category="4" onclick="handleClick(this)">Word 13</div>
+        <div class="word" data-category="4" onclick="handleClick(this)">Word 14</div>
         <div class="word" data-category="4" onclick="handleClick(this)">Word 15</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 16</div>
+        <div class="word" data-category="4" onclick="handleClick(this)">Word 16</div>
     </div>
     
     <p>Mistakes: <span id="mistakeCounter">0</span></p>

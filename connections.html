@@ -25,8 +25,7 @@
             background-color: #27ae60;
             color: #fff;
         }
-        
-        
+                
         .hidden {
             display: none;
         }
@@ -88,6 +87,7 @@
                         selectedWords[i].classList.remove('selected');
                         selectedWords[i].classList.add('solved');
                     }
+                    reorderGrid();
                 } else {
                     mistakeCounter++;
                     for (var i = 0; i < selectedWords.length; i++) {
@@ -99,6 +99,14 @@
                 selectedWords = [];
                 document.getElementById('submitBtn').classList.add('hidden');
                 document.getElementById('mistakeCounter').textContent = mistakeCounter;
+            }
+        }
+        
+        function reorderGrid() {
+            var grid = document.querySelector('.grid');
+            var solvedWords = document.querySelectorAll('.solved');
+            if (solvedWords.length > 0) {
+                solvedWords.forEach(word => grid.appendChild(word));
             }
         }
     </script>

@@ -28,7 +28,7 @@
             background-color: #27ae60;
             color: #fff;
         }
-        
+                
         .hidden {
             display: none;
         }
@@ -65,7 +65,28 @@
         var startTime;
         var elapsedTime = 0;
         var timerInterval;
+        var words = [];
+        
+        function initializeWords() {
+            words = Array.from(document.querySelectorAll('.word'));
+            var grid = document.querySelector('.grid');
 
+            shuffle(words);
+            
+            for (var i = 0; i < words.length; i++) {
+                grid.appendChild(words[i]);
+            }
+        }
+        
+        function shuffle(array) {
+            for (var i = array.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = array[i];
+                array[i] = array[j];
+                array[j] = temp;
+            }
+        }
+        
         function handleClick(element) {
             if (element.classList.contains('solved')) {
                 return; // Ignore already solved words
@@ -138,6 +159,7 @@
             clearInterval(timerInterval);
         }
         
+        initializeWords();
         startTimer();
     </script>
 </body>

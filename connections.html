@@ -3,6 +3,9 @@
 <head>
     <title>Clickable Word Grid</title>
     <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
         .grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -25,7 +28,7 @@
             background-color: #27ae60;
             color: #fff;
         }
-                
+        
         .hidden {
             display: none;
         }
@@ -51,13 +54,17 @@
         <div class="word" data-category="2" onclick="handleClick(this)">Word 16</div>
     </div>
     
-    <p>Mistake Counter: <span id="mistakeCounter">0</span></p>
+    <p>Mistakes: <span id="mistakeCounter">0</span></p>
     <button id="submitBtn" class="hidden" onclick="submitWords()">Submit</button>
+    <p>Elapsed Time: <span id="timer">0</span> seconds</p>
 
     <script>
         var selectedCount = 0;
         var mistakeCounter = 0;
         var selectedWords = [];
+        var startTime;
+        var elapsedTime = 0;
+        var timerInterval;
 
         function handleClick(element) {
             if (element.classList.contains('solved')) {
@@ -68,6 +75,8 @@
                 element.classList.remove('selected');
                 selectedCount--;
                 selectedWords = selectedWords.filter(word => word !== element);
+                document.getElementById('submitBtn').classList.add('hidden');
+
             } else if (selectedCount < 4) {
                 element.classList.add('selected');
                 selectedCount++;
@@ -99,6 +108,10 @@
                 selectedWords = [];
                 document.getElementById('submitBtn').classList.add('hidden');
                 document.getElementById('mistakeCounter').textContent = mistakeCounter;
+                
+                if (document.querySelectorAll('.solved').length === 16) {
+                    stopTimer();
+                }
             }
         }
         
@@ -109,6 +122,23 @@
                 solvedWords.forEach(word => grid.appendChild(word));
             }
         }
+        
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        function updateTimer() {
+            var currentTime = Date.now();
+            elapsedTime = Math.floor((currentTime - startTime) / 1000);
+            document.getElementById('timer').textContent = elapsedTime;
+        }
+        
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+        
+        startTimer();
     </script>
 </body>
 </html>

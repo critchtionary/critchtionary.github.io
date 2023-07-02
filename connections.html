@@ -44,9 +44,6 @@
             color: #fff;
         }
                 
-        .hidden {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -70,7 +67,7 @@
     </div>
     
     <p>Mistakes: <span id="mistakeCounter">0</span></p>
-    <button id="submitBtn" class="hidden" onclick="submitWords()">Submit</button>
+    <button id="submitBtn" disabled="" onclick="submitWords()">Submit</button>
     <p>Elapsed Time: <span id="timer">0</span> seconds</p>
 
     <script>
@@ -111,14 +108,14 @@
                 element.classList.remove('selected');
                 selectedCount--;
                 selectedWords = selectedWords.filter(word => word !== element);
-                document.getElementById('submitBtn').classList.add('hidden');
+                document.getElementById('submitBtn').disabled = true;
 
             } else if (selectedCount < 4) {
                 element.classList.add('selected');
                 selectedCount++;
                 selectedWords.push(element);
                 if (selectedCount === 4) {
-                    document.getElementById('submitBtn').classList.remove('hidden');
+                    document.getElementById('submitBtn').disabled = false;
                 }
             }
         }
@@ -142,7 +139,7 @@
                 
                 selectedCount = 0;
                 selectedWords = [];
-                document.getElementById('submitBtn').classList.add('hidden');
+                document.getElementById('submitBtn').disabled = true;
                 document.getElementById('mistakeCounter').textContent = mistakeCounter;
                 
                 if (document.querySelectorAll('.solved').length === 16) {

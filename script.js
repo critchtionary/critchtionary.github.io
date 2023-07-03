@@ -1,46 +1,35 @@
-var selectedCount = 0;
 var mistakeCounter = 0;
 var selectedWords = [];
 var startTime;
 var elapsedTime = 0;
 var timerInterval;
-var words = [];
-var answers = new Map();
 
-answers.set('Word 1', '1')
-answers.set('Word 2', '1')
-answers.set('Word 3', '1')
-answers.set('Word 4', '1')
+var groupings = {
+    'Category 1': ['Word 1', 'Word 2', 'Word 3', 'Word 4'],
+    'Category 2': ['Word 5', 'Word 6', 'Word 7', 'Word 8'],
+    'Category 3': ['Word 9', 'Word 10', 'Word 11', 'Word 12'],
+    'Category 4': ['Word 13', 'Word 14', 'Word 15', 'Word 16']
+}
 
-answers.set('Word 5', '2')
-answers.set('Word 6', '2')
-answers.set('Word 7', '2')
-answers.set('Word 8', '2')
+var categories = Object.keys(groupings);
 
-answers.set('Word 9', '3')
-answers.set('Word 10', '3')
-answers.set('Word 11', '3')
-answers.set('Word 12', '3')
+var wordToCategory = new Map();
 
-answers.set('Word 13', '4')
-answers.set('Word 14', '4')
-answers.set('Word 15', '4')
-answers.set('Word 16', '4')
+function initialiseWords() {
+    var wordElements = Array.from(document.querySelectorAll('.word'));
+    var wordTexts = Object.values(groupings).flat();
 
-function initializeWords() {
-    words = Array.from(document.querySelectorAll('.word'));
-    var grid = document.querySelector('.grid');
-
-    var answerKeys = answers.keys();
-    
-    for (var i = 0; i < words.length; i++) {
-        words[i].textContent = answerKeys.next().value;
+    for (var i = 0; i < categories.length; i++) {
+        var words = groupings[categories[i]]
+        for (var j = 0; j < words.length; j++) {
+            wordToCategory.set(words[j], categories[i]);
+        }
     }
+    
+    shuffle(wordTexts);
 
-    shuffle(words);
-
-    for (var i = 0; i < words.length; i++) {
-        grid.appendChild(words[i]);
+    for (var i = 0; i < wordElements.length; i++) {
+        wordElements[i].textContent = wordTexts[i]
     }
 }
 
@@ -60,31 +49,24 @@ function handleClick(element) {
     
     if (element.classList.contains('selected')) {
         element.classList.remove('selected');
-        selectedCount--;
         selectedWords = selectedWords.filter(word => word !== element);
         document.getElementById('submitBtn').disabled = true;
 
-    } else if (selectedCount < 4) {
+    } else if (selectedWords.length < 4) {
         element.classList.add('selected');
-        selectedCount++;
         selectedWords.push(element);
-        if (selectedCount === 4) {
+        if (selectedWords.length === 4) {
             document.getElementById('submitBtn').disabled = false;
         }
     }
 }
 
 function submitWords() {
-    if (selectedCount === 4) {
-        var category = answers.get(selectedWords[0].textContent);
-        var sameCategory = selectedWords.every(word => answers.get(word.textContent) === category);
+    if (selectedWords.length === 4) {
+        var category = wordToCategory.get(selectedWords[0].textContent);
+        var sameCategory = selectedWords.every(word => wordToCategory.get(word.textContent) === category);
         if (sameCategory) {
-            for (var i = 0; i < selectedWords.length; i++) {
-                selectedWords[i].classList.remove('selected');
-                selectedWords[i].classList.add('solved');
-                selectedWords[i].setAttribute('data-category', category);
-            }
-            reorderGrid();
+            replaceWithGroupElement(category);
         } else {
             mistakeCounter++;
             for (var i = 0; i < selectedWords.length; i++) {
@@ -92,23 +74,31 @@ function submitWords() {
             }
         }
         
-        selectedCount = 0;
         selectedWords = [];
         document.getElementById('submitBtn').disabled = true;
         document.getElementById('mistakeCounter').textContent = mistakeCounter;
         
-        if (document.querySelectorAll('.solved').length === 16) {
+        if (document.querySelectorAll('.group-element').length === 4) {
             stopTimer();
         }
     }
 }
 
-function reorderGrid() {
-    var grid = document.querySelector('.grid');
-    var solvedWords = document.querySelectorAll('.solved');
-    if (solvedWords.length > 0) {
-        solvedWords.forEach(word => grid.appendChild(word));
+function replaceWithGroupElement(category) {
+    var words = [];
+    for (var i = 0; i < selectedWords.length; i++) {
+            words.push(selectedWords[i].textContent);
+            selectedWords[i].remove();
     }
+
+    var index = categories.indexOf(category);
+    
+    var grid = document.querySelector('.grid');
+    var groupElement = document.createElement('div');
+    groupElement.classList.add('group-element');
+    groupElement.textContent = `${category}: ${words.join(', ')}`;
+    groupElement.setAttribute('category', index);
+    grid.appendChild(groupElement);
 }
 
 function startTimer() {
@@ -126,5 +116,5 @@ function stopTimer() {
     clearInterval(timerInterval);
 }
 
-initializeWords();
+initialiseWords();
 startTimer();

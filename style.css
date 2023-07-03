@@ -7,14 +7,17 @@ body {
     grid-gap: 10px;
 }
 
-.word {
-    background-color: #eaeaea;
+.grid > div {
     padding: 10px;
     text-align: center;
-    cursor: pointer;
     user-select: none;
     font-weight: bold;
     border-radius: 10px;
+}
+
+.word {
+    background-color: #eaeaea;
+    cursor: pointer;
 }
 
 .selected {
@@ -22,18 +25,22 @@ body {
     color: #fff;
 }
 
-.solved[data-category="1"] {
+.group-element {
+    grid-column: 1 / span 4;
+}
+
+.group-element[category="0"] {
     background-color: #b5e352;
 }
 
-.solved[data-category="2"] {
+.group-element[category="1"] {
     background-color: #bc70c4;
 }
 
-.solved[data-category="3"] {
+.group-element[category="2"] {
     background-color: #fbd400;
 }
 
-.solved[data-category="4"] {
+.group-element[category="3"] {
     background-color: #729eeb;
 }

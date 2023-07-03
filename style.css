@@ -14,6 +14,7 @@ body {
     cursor: pointer;
     user-select: none;
     font-weight: bold;
+    border-radius: 10px;
 }
 
 .selected {
@@ -22,21 +23,17 @@ body {
 }
 
 .solved[data-category="1"] {
-    background-color: #27ae60;
-    color: #fff;
+    background-color: #b5e352;
 }
 
 .solved[data-category="2"] {
-    background-color: #994cd8;
-    color: #fff;
+    background-color: #bc70c4;
 }
 
 .solved[data-category="3"] {
-    background-color: #d6b41f;
-    color: #fff;
+    background-color: #fbd400;
 }
 
 .solved[data-category="4"] {
-    background-color: #34cec6;
-    color: #fff;
+    background-color: #729eeb;
 }

@@ -2,71 +2,28 @@
 <html>
 <head>
     <title>Connections</title>
-    <style>
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-gap: 10px;
-        }
-        
-        .word {
-            background-color: #eaeaea;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            user-select: none;
-        }
-        
-        .selected {
-            background-color: #2c3e50;
-            color: #fff;
-        }
-        
-        .solved[data-category="1"] {
-            background-color: #27ae60;
-            color: #fff;
-        }
-
-        .solved[data-category="2"] {
-            background-color: #994cd8;
-            color: #fff;
-        }
-
-        .solved[data-category="3"] {
-            background-color: #d6b41f;
-            color: #fff;
-        }
-
-        .solved[data-category="4"] {
-            background-color: #34cec6;
-            color: #fff;
-        }
-                
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="grid">
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 1</div>
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 2</div>
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 3</div>
-        <div class="word" data-category="1" onclick="handleClick(this)">Word 4</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 5</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 6</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 7</div>
-        <div class="word" data-category="2" onclick="handleClick(this)">Word 8</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 9</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 10</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 11</div>
-        <div class="word" data-category="3" onclick="handleClick(this)">Word 12</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 13</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 14</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 15</div>
-        <div class="word" data-category="4" onclick="handleClick(this)">Word 16</div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
+        <div class="word" onclick="handleClick(this)"></div>
     </div>
-    
+
     <p>Mistakes: <span id="mistakeCounter">0</span></p>
     <button id="submitBtn" disabled="" onclick="submitWords()">Submit</button>
     <p>Elapsed Time: <span id="timer">0</span> seconds</p>
@@ -79,13 +36,40 @@
         var elapsedTime = 0;
         var timerInterval;
         var words = [];
-        
+        var answers = new Map();
+
+        answers.set('Word 1', '1')
+        answers.set('Word 2', '1')
+        answers.set('Word 3', '1')
+        answers.set('Word 4', '1')
+
+        answers.set('Word 5', '2')
+        answers.set('Word 6', '2')
+        answers.set('Word 7', '2')
+        answers.set('Word 8', '2')
+
+        answers.set('Word 9', '3')
+        answers.set('Word 10', '3')
+        answers.set('Word 11', '3')
+        answers.set('Word 12', '3')
+
+        answers.set('Word 13', '4')
+        answers.set('Word 14', '4')
+        answers.set('Word 15', '4')
+        answers.set('Word 16', '4')
+
         function initializeWords() {
             words = Array.from(document.querySelectorAll('.word'));
             var grid = document.querySelector('.grid');
 
-            shuffle(words);
+            var answerKeys = answers.keys();
             
+            for (var i = 0; i < words.length; i++) {
+                words[i].textContent = answerKeys.next().value;
+            }
+
+            shuffle(words);
+
             for (var i = 0; i < words.length; i++) {
                 grid.appendChild(words[i]);
             }
@@ -123,12 +107,13 @@
         
         function submitWords() {
             if (selectedCount === 4) {
-                var category = selectedWords[0].getAttribute('data-category');
-                var sameCategory = selectedWords.every(word => word.getAttribute('data-category') === category);
+                var category = answers.get(selectedWords[0].textContent);
+                var sameCategory = selectedWords.every(word => answers.get(word.textContent) === category);
                 if (sameCategory) {
                     for (var i = 0; i < selectedWords.length; i++) {
                         selectedWords[i].classList.remove('selected');
                         selectedWords[i].classList.add('solved');
+                        selectedWords[i].setAttribute('data-category', category);
                     }
                     reorderGrid();
                 } else {

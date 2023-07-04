@@ -18,6 +18,7 @@ body {
 .word {
     background-color: #eaeaea;
     cursor: pointer;
+    text-transform: uppercase;
 }
 
 .selected {

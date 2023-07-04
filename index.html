@@ -3,8 +3,9 @@
 <head>
     <title>Connections</title>
     <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
 </head>
-<body>
+<body class="puzzle">
     <div class="grid">
         <div class="word" onclick="handleClick(this)"></div>
         <div class="word" onclick="handleClick(this)"></div>
@@ -28,7 +29,6 @@
 
     <p><b>Mistakes:</b> <span id="mistakeCounter">0</span></p>
     <p><b>Elapsed Time:</b> <span id="timer">0</span> seconds</p>
-
-    <script src="script.js"></script> 
 </body>
+<script>initialise()</script>
 </html>
